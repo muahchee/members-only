@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+</head>
+
+<body>
+  <a href="/">Go Back</a>
+  <%- include("partials/error.ejs") %>
+
+  <form action="/signup" method="post">
+    <p>
+      <label for="firstname">First Name: </label>
+      <input type="text" id="firstname" name="firstname" value="<% if (locals.obj) { %> <%= obj.firstname %><% } %>" required />
+    </p>
+    <p>
+      <label for="lastname">Last Name: </label>
+      <input type="text" id="lastname" name="lastname" value="<% if (locals.obj) { %> <%= obj.lastname %><% } %>" required />
+    </p>
+    <p>
+      <label for="username">Username: </label>
+      <input type="text" id="username" name="username" value="<% if (locals.obj) { %> <%= obj.username %><% } %>" required />
+    </p>
+    <p>
+      <label for="pw">Password: </label>
+      <input type="password" id="pw" name="pw" required />
+    </p>
+    <p>
+      <label for="cpw">Confirm Password: </label>
+      <input type="password" id="cpw" name="cpw" required />
+    </p>
+
+    <button type="submit">Submit</button>
+  </form>
+</body>
+
+</html>

@@ -3,7 +3,8 @@ import path from "node:path"
 import { fileURLToPath } from "node:url";
 
 //router import
-import { indexRouter } from "./routes/indexRouter";
+import { indexRouter } from "./routes/indexRouter.js";
+import { signupRouter } from "./routes/signupRouter.js";
 
 const app = e();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -16,7 +17,9 @@ app.use(e.static(assetsPath));
 app.use(urlencoded({ extended: true }));
 
 //app.use routes
-app.use("/", indexRouter)
+app.use("/", indexRouter);
+app.use("/signup", signupRouter)
+
 
 app.listen(PORT, (err) => {
   if (err) throw err;

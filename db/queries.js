@@ -8,3 +8,17 @@ import format from "pg-format";
 //   const { rows } = await pool.query(sql);
 //   return rows;
 // }
+
+export async function addUser(obj) {
+  const sql =
+    "INSERT INTO users (firstname, lastname, username, pw, member, admin) VALUES ($1, $2, $3, $4, false, false)";
+
+  await pool.query(sql, [obj.firstname, obj.lastname, obj.username, obj.pw]);
+}
+
+export async function getUserbyUsername(username) {
+  const sql = format("SELECT * FROM users WHERE username LIKE %L", username);
+
+  const { rows } = await pool.query(sql);
+  return rows[0];
+}

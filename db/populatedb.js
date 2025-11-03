@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   firstname VARCHAR(255),
   lastname VARCHAR(255),
-  email VARCHAR(255),
+  username VARCHAR(255),
+  pw VARCHAR(255),
   member BOOLEAN,
   admin BOOLEAN
 );
