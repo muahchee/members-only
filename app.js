@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 //router import
 import { indexRouter } from "./routes/indexRouter.js";
 import { signupRouter } from "./routes/signupRouter.js";
+import { joinRouter } from "./routes/joinRouter.js";
 
 const app = e();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -16,10 +17,16 @@ app.set("view engine", "ejs");
 app.use(e.static(assetsPath));
 app.use(urlencoded({ extended: true }));
 
+//to easily access the currentUser without passing req.user into each render
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 //app.use routes
 app.use("/", indexRouter);
 app.use("/signup", signupRouter)
-
+app.use("/join", joinRouter )
 
 app.listen(PORT, (err) => {
   if (err) throw err;
