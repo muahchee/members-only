@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { indexRouter } from "./routes/indexRouter.js";
 import { signupRouter } from "./routes/signupRouter.js";
 import { joinRouter } from "./routes/joinRouter.js";
+import { loginRouter } from "./routes/loginRouter.js";
 
 const app = e();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/signup", signupRouter)
 app.use("/join", joinRouter )
+app.use("/login", loginRouter)
 
 app.listen(PORT, (err) => {
   if (err) throw err;
