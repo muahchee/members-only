@@ -1,18 +1,11 @@
 import e, { urlencoded } from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import passport from "passport";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 const pgSession = connectPgSimple(session);
 
 import dotenv from "dotenv";
-
-//router import
-import { indexRouter } from "./routes/indexRouter.js";
-import { signupRouter } from "./routes/signupRouter.js";
-import { joinRouter } from "./routes/joinRouter.js";
-import { loginRouter } from "./routes/loginRouter.js";
 
 ///----
 import { pool } from "./db/pool.js";
@@ -41,20 +34,19 @@ app.use(
     store: sessionStore,
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, //1day
     },
   })
 );
+// app.use(passport.session());
 
-app.use(passport.session());
-
-// to easily access the currentUser without passing req.user into each render
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
-});
+//to easily access the currentUser without passing req.user into each render
+// app.use((req, res, next) => {
+//   res.locals.currentUser = req.user;
+//   next();
+// });
 
 //app.use routes
 app.use("/", indexRouter);
