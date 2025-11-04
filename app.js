@@ -12,10 +12,10 @@ import dotenv from "dotenv";
 import { indexRouter } from "./routes/indexRouter.js";
 import { signupRouter } from "./routes/signupRouter.js";
 import { joinRouter } from "./routes/joinRouter.js";
-import { loginRouter } from "./routes/loginRouter.js";
 
 ///----
 import { pool } from "./db/pool.js";
+import "./auth/passport.js";
 
 dotenv.config();
 
@@ -28,12 +28,11 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(e.static(assetsPath));
 app.use(urlencoded({ extended: true }));
-app.use(e.json())
+app.use(e.json());
 
 //connect to the table "session" in db
 const sessionStore = new pgSession({
   pool: pool,
-
 });
 
 app.use(
@@ -48,6 +47,8 @@ app.use(
   })
 );
 
+//passport auth goes here--------------------
+
 app.use(passport.session());
 
 // to easily access the currentUser without passing req.user into each render
@@ -60,7 +61,26 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/signup", signupRouter);
 app.use("/join", joinRouter);
-app.use("/login", loginRouter);
+
+// -----login/logout------
+app.get("/login", (req, res) => {
+  res.render("login", { title: "login" });
+});
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
+app.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
 
 app.listen(PORT, (err) => {
   if (err) throw err;

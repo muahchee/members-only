@@ -10,5 +10,9 @@
   <a href="/signup">Sign Up</a>
   <a href="/login">Log In</a>
   <h1><%= title %></h1>
+  <% if (locals.currentUser) {%>
+  <p>You are logged in, <%= currentUser.username %>!</p>
+  <a href="/logout">Log Out</a>
+  <% } %>
 </body>
 </html>

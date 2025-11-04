@@ -16,6 +16,12 @@ export async function getUserbyUsername(username) {
   return rows[0];
 }
 
+export async function getUserById(id) {
+  const sql = format("SELECT * FROM users WHERE id=%s;", id);
+  const { rows } = await pool.query(sql);
+  return rows[0];
+}
+
 export async function changeMembership(username) {
   const target = await getUserbyUsername(username);
   if (target.member === false) {
