@@ -12,10 +12,11 @@
   <a href="/">Go Back</a>
   <h1><%= title %></h1>
   <p>do you have what it takes to be an admin????? :3c</p>
-  <form action="/join" method="post">
+  <%- include("partials/error.ejs") %>
+  <form action="/admin" method="post">
     <p>
       <label for="admin-pw">What is the ULTRA SECRET ADMIN PASSWORD??? </label>
-      <input type="password" id="admin-pw" name="admin=pw" required />
+      <input type="password" id="admin-pw" name="admin-pw" required />
     </p>
     <button type="submit">Submit</button>
   </form>

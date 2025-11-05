@@ -12,10 +12,12 @@ import dotenv from "dotenv";
 import { indexRouter } from "./routes/indexRouter.js";
 import { signupRouter } from "./routes/signupRouter.js";
 import { joinRouter } from "./routes/joinRouter.js";
+import { adminRouter } from "./routes/adminRouter.js";
 
 ///----
 import { pool } from "./db/pool.js";
 import "./auth/passport.js";
+import { isAdmin, isAuth } from "./auth/authMiddle.js";
 
 dotenv.config();
 
@@ -60,7 +62,8 @@ app.use((req, res, next) => {
 //app.use routes
 app.use("/", indexRouter);
 app.use("/signup", signupRouter);
-app.use("/join", joinRouter);
+app.use("/join", isAuth, joinRouter);
+app.use("/admin", isAdmin, adminRouter);
 
 // -----login/logout------
 app.get("/login", (req, res) => {

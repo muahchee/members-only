@@ -1,29 +1,30 @@
 import { body, validationResult, matchedData } from "express-validator";
-import dotenv from "dotenv";
 import { changeMembership } from "../db/queries.js";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const validateMemberPW = [
-  body("member-pw").custom(async (value) => {
-    if (value !== process.env.MEMBER_PW) throw new Error("Wrong Password!");
+  body("member-pw").trim().custom(async (value) => {
+    if (String(value) !== process.env.MEMBER_PW) throw new Error("Wrong Password!");
   }),
 ];
 
-export async function joinGet(res, req) {
+export async function joinGet(req, res) {
   res.render("join", { title: "Membership" });
 }
 
 export const joinPost = [
   validateMemberPW,
-  async (res, req) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).render("join", {
-        title: Membership,
+        title: "Membership",
         errors: errors.array(),
       });
     }
-    await changeMembership(req.currentUser.username)
+    await changeMembership(req.user.username);
+    res.redirect("/")
   },
 ];

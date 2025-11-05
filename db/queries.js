@@ -39,3 +39,20 @@ export async function changeMembership(username) {
   }
 }
 
+export async function changeAdminStatus(username) {
+  const target = await getUserbyUsername(username);
+  if (target.admin === false) {
+    const sql = format(
+      "UPDATE users SET admin=true WHERE username LIKE %L",
+      username
+    );
+    await pool.query(sql);
+  } else {
+    const sql = format(
+      "UPDATE users SET admin=false WHERE username LIKE %L",
+      username
+    );
+    await pool.query(sql);
+  }
+}
+
