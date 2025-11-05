@@ -1,7 +1,6 @@
 import { pool } from "./pool.js";
 import format from "pg-format";
 
-
 export async function addUser(obj) {
   const sql =
     "INSERT INTO users (firstname, lastname, username, pw, member, admin) VALUES ($1, $2, $3, $4, false, false)";
@@ -56,3 +55,22 @@ export async function changeAdminStatus(username) {
   }
 }
 
+export async function getAllMessages() {
+  const sql = "SELECT * FROM messages;";
+
+  const { rows } = await pool.query(sql);
+  return rows;
+}
+
+export async function addMessage(obj) {
+  const sql =
+    "INSERT INTO messages (userid, title, timestamp, text) VALUES ($1, $2, $3, $4)";
+
+  await pool.query(sql, [obj.userid, obj.title, obj.timestamp, obj.text]);
+}
+
+export async function deleteMessage(msgId) {
+  const sql = format("DELETE FROM item WHERE id=%s;", msgId);
+
+  await pool.query(sql);
+}

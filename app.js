@@ -13,11 +13,13 @@ import { indexRouter } from "./routes/indexRouter.js";
 import { signupRouter } from "./routes/signupRouter.js";
 import { joinRouter } from "./routes/joinRouter.js";
 import { adminRouter } from "./routes/adminRouter.js";
+import { deleteRouter } from "./routes/deleteRouter.js";
 
 ///----
 import { pool } from "./db/pool.js";
 import "./auth/passport.js";
-import { isAdmin, isAuth } from "./auth/authMiddle.js";
+import { isAdmin, isUser, isMember } from "./auth/authMiddle.js";
+import { createRouter } from "./routes/createRouter.js";
 
 dotenv.config();
 
@@ -59,11 +61,11 @@ app.use((req, res, next) => {
   next();
 });
 
-//app.use routes
+//-------------------routes-----------------------------------
 app.use("/", indexRouter);
 app.use("/signup", signupRouter);
-app.use("/join", isAuth, joinRouter);
-app.use("/admin", isAdmin, adminRouter);
+app.use("/join", isUser, joinRouter);
+app.use("/admin", isMember, adminRouter);
 
 // -----login/logout------
 app.get("/login", (req, res) => {
@@ -84,6 +86,11 @@ app.get("/logout", (req, res, next) => {
     res.redirect("/");
   });
 });
+
+//---messages----
+app.use("/create",isUser, createRouter)
+app.use("/delete",isAdmin, deleteRouter)
+
 
 app.listen(PORT, (err) => {
   if (err) throw err;

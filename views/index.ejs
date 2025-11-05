@@ -9,11 +9,15 @@
 </head>
 
 <body>
+  <h1><%= title %></h1>
+
   <a href="/signup">Sign Up</a>
   <a href="/login">Log In</a>
-  <h1><%= title %></h1>
+
   <%- include("partials/error.ejs") %>
+
   <% if (locals.currentUser) {%>
+  <a href="/logout">Log Out</a>
 
   <!-- access: user -->
   <p>You are logged in, <%= currentUser.username %>!</p>
@@ -32,7 +36,9 @@
   <p>All hail, the almighty ADMIN!</p>
   <% } %>
 
-  <a href="/logout">Log Out</a>
+  <a href="/create">Create a Message</a>
+
+
 
   <% } %>
 </body>
