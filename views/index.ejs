@@ -11,8 +11,10 @@
 <body>
   <h1><%= title %></h1>
 
+  <% if (!locals.currentUser) {%>
   <a href="/signup">Sign Up</a>
   <a href="/login">Log In</a>
+  <% } %>
 
   <%- include("partials/error.ejs") %>
 
@@ -52,9 +54,10 @@
       <p><%= messages[i].text %></p>
 
       <% if (locals.currentUser) {%>
+
       <!-- access: user, member -->
-      <% if (currentUser.member && !currentUser.admin) {%>
-      <p>by <%= messages[i].username %> (<%= messages[i].timestamp %>)</p>
+      <% if (currentUser.member) {%>
+      <p>by <%= messages[i].username %> (<%= new Date(messages[i].timestamp).toLocaleDateString() %>)</p>
       <% } %>
 
       <!-- access: user, member, admin  -->

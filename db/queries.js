@@ -59,6 +59,7 @@ export async function getAllMessages() {
   const sql = "SELECT messages.id, username, title, timestamp, text FROM messages LEFT JOIN users ON messages.userid = users.id;";
 
   const { rows } = await pool.query(sql);
+  console.log(new Date(rows[0].timestamp).toLocaleDateString())
   return rows;
 }
 
@@ -70,7 +71,7 @@ export async function addMessage(obj) {
 }
 
 export async function deleteMessage(msgId) {
-  const sql = format("DELETE FROM item WHERE id=%s;", msgId);
+  const sql = format("DELETE FROM messages WHERE id=%s;", msgId);
 
   await pool.query(sql);
 }

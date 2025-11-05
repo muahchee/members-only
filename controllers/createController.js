@@ -36,7 +36,7 @@ export const createPost = [
     await addMessage({
       userid: req.user.id,
       title: title,
-      timestamp: new Date().toLocaleString(),
+      timestamp: new Date().toLocaleDateString(),
       text: text,
     });
     res.redirect("/");

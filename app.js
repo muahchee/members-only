@@ -13,13 +13,13 @@ import { indexRouter } from "./routes/indexRouter.js";
 import { signupRouter } from "./routes/signupRouter.js";
 import { joinRouter } from "./routes/joinRouter.js";
 import { adminRouter } from "./routes/adminRouter.js";
-import { deleteRouter } from "./routes/deleteRouter.js";
 
 ///----
 import { pool } from "./db/pool.js";
 import "./auth/passport.js";
 import { isAdmin, isUser, isMember } from "./auth/authMiddle.js";
 import { createRouter } from "./routes/createRouter.js";
+import { deleteMessage } from "./db/queries.js";
 
 dotenv.config();
 
@@ -88,9 +88,12 @@ app.get("/logout", (req, res, next) => {
 });
 
 //---messages----
-app.use("/create",isUser, createRouter)
-app.use("/delete",isAdmin, deleteRouter)
-
+app.use("/create", isUser, createRouter);
+app.get("/:id/delete", isAdmin, async (req, res) => {
+  const id = req.params.id;
+  await deleteMessage(id);
+  res.redirect("/");
+});
 
 app.listen(PORT, (err) => {
   if (err) throw err;
