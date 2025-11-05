@@ -38,9 +38,37 @@
 
   <a href="/create">Create a Message</a>
 
-
-
   <% } %>
+
+  <h2>Messageboard</h2>
+  <ul>
+    <% if (locals.messages) {%>
+
+    <% for (let i = messages.length-1; i > -1; i--) { %>
+    <li class="messages">
+
+      <h3><%= messages[i].title %></h3>
+
+      <p><%= messages[i].text %></p>
+
+      <% if (locals.currentUser) {%>
+      <!-- access: user, member -->
+      <% if (currentUser.member && !currentUser.admin) {%>
+      <p>by <%= messages[i].username %> (<%= messages[i].timestamp %>)</p>
+      <% } %>
+
+      <!-- access: user, member, admin  -->
+      <% if (currentUser.member && currentUser.admin) {%>
+      <a href="/<%= messages[i].id %>/delete">Delete</a>
+      <% } %>
+    </li>
+    <% } %>
+    <!-- if currentUser end -->
+    <% } %>
+    <!-- for loop end -->
+    <% } %>
+    <!-- if messages end -->
+  </ul>
 </body>
 
 </html>

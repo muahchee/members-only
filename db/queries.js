@@ -56,7 +56,7 @@ export async function changeAdminStatus(username) {
 }
 
 export async function getAllMessages() {
-  const sql = "SELECT * FROM messages;";
+  const sql = "SELECT messages.id, username, title, timestamp, text FROM messages LEFT JOIN users ON messages.userid = users.id;";
 
   const { rows } = await pool.query(sql);
   return rows;
