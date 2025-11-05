@@ -59,7 +59,6 @@ export async function getAllMessages() {
   const sql = "SELECT messages.id, username, title, timestamp, text FROM messages LEFT JOIN users ON messages.userid = users.id;";
 
   const { rows } = await pool.query(sql);
-  console.log(new Date(rows[0].timestamp).toLocaleDateString())
   return rows;
 }
 
