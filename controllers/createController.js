@@ -13,7 +13,7 @@ const validateMsg = [
     .customSanitizer(wenxuanReplace),
   body("text")
     .isLength({ max: 300 })
-    .withMessage("Titles should be less than 300 characters long.")
+    .withMessage("Text should be less than 300 characters long.")
     .customSanitizer(wenxuanReplace),
 ];
 
